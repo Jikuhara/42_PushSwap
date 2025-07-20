@@ -23,7 +23,7 @@ static int	get_max_bits(size_t n)
 	return (max_bits);
 }
 
-static void	process_single_bit(t_Stacks *stacks, unsigned char *ops,
+static void	process_single_bit(t_Stacks *stacks, t_op *ops,
 		t_op *op_count, int bit)
 {
 	size_t	j;
@@ -41,24 +41,24 @@ static void	process_single_bit(t_Stacks *stacks, unsigned char *ops,
 			do_op(stacks, PB, ops, op_count);
 		j++;
 	}
-
 }
 
-static void	return_all_to_stack_a(t_Stacks *stacks, unsigned char *ops,
+static void	return_all_to_stack_a(t_Stacks *stacks, t_op *ops,
 	t_op *op_count)
 {
-while (!deque_is_empty(&stacks->b_stack))
-	do_op(stacks, PA, ops, op_count);
+	while (!deque_is_empty(&stacks->b_stack))
+		do_op(stacks, PA, ops, op_count);
 }
 
-void	sort_stacks(t_Stacks *stacks, unsigned char *ops)
+void	sort_stacks(t_Stacks *stacks, t_op *ops)
 {
-	const size_t	n = stacks->a_stack.size;
+	size_t			n;
 	unsigned int	op_count;
 	int				max_bits;
 	int				bit;
 
 	op_count = 0;
+	n = stacks->a_stack.size;
 	if (n <= 1)
 		return (ops[0] = LAST, (void)0);
 	max_bits = get_max_bits(n);
