@@ -16,22 +16,25 @@ int	min(t_Deque *deque)
 {
 	int		min_val;
 	size_t	idx;
+	size_t	i;
 
 	if (deque_is_empty(deque))
 		return (INT_MAX);
 	min_val = INT_MAX;
 	idx = deque->top;
-	for (size_t i = 0; i < deque->size; ++i)
+	i = 0;
+	while (i < deque->size)
 	{
 		if (deque->array[idx] < min_val)
 			min_val = deque->array[idx];
 		idx = (idx + 1) % DEQUE_CAPACITY;
+		i++;
 	}
 	return (min_val);
 }
 
 /* selection_sort */
-void	sort_stacks(t_Stacks *stacks, unsigned char *ops)
+void	sort_stacks(t_Stacks *stacks, t_op *ops)
 {
 	unsigned int	op_count;
 
