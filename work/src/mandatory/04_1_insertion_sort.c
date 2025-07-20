@@ -13,10 +13,7 @@
 #include "push_swap.h"
 
 /* insertion_sort */
-// Stack Aの先頭の要素をStack Bの適切な位置(RBを用いて)に移動する。
-// その後、RBした回数分RRBして、もとに戻す。
-// 最後にPAをN回使用して、Stack Aに戻す。
-static void	insert_element_to_stack_b(t_Stacks *stacks, unsigned char *ops,
+static void	insert_element_to_stack_b(t_Stacks *stacks, t_op *ops,
 		t_op *op_count)
 {
 	int	rb_count;
@@ -44,14 +41,14 @@ static void	insert_element_to_stack_b(t_Stacks *stacks, unsigned char *ops,
 		do_op(stacks, RRB, ops, op_count);
 }
 
-static void	return_all_to_stack_a(t_Stacks *stacks, unsigned char *ops,
+static void	return_all_to_stack_a(t_Stacks *stacks, t_op *ops,
 		t_op *op_count)
 {
 	while (!deque_is_empty(&stacks->b_stack))
 		do_op(stacks, PA, ops, op_count);
 }
 
-void	sort_stacks(t_Stacks *stacks, unsigned char *ops)
+void	sort_stacks(t_Stacks *stacks, t_op *ops)
 {
 	unsigned int	op_count;
 
