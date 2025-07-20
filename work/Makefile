@@ -43,8 +43,8 @@ NAME		:=	push_swap
 
 CC			:=	cc
 # CFLAGS		:=	-Wall -Wextra -Werror -Iincludes -Ilibft
-# CFLAGS		:=	-Iincludes -Ilibft
-CFLAGS		:=	-Wall -Wextra -Werror -Iincludes -Ilibft -fsanitize=address
+CFLAGS		:=	-Iincludes -Ilibft
+# CFLAGS		:=	-Wall -Wextra -Werror -Iincludes -Ilibft -fsanitize=address
 T_CFLAGS	:=	-Iincludes -Ilibft
 
 #─ directory name ────────────────────────────────────────────────────────────
@@ -74,18 +74,18 @@ SRCS_MAND	:=	src/mandatory/01_is_valid_args.c \
 ifeq ($(MAKECMDGOALS),bubble)
 SRCS_MAND	+=	src/mandatory/04_1_bubble_sort.c
 else ifeq ($(MAKECMDGOALS),insertion)
-SRCS_MAND	+=	src/mandatory/04_1_insertion_sort.c
+SRCS_MAND	+=	src/mandatory/04_2_insertion_sort.c
 else ifeq ($(MAKECMDGOALS),selection)
-SRCS_MAND	+=	src/mandatory/04_1_selection_sort.c
-else ifeq ($(MAKECMDGOALS),quick)
-SRCS_MAND	+=	src/mandatory/04_1_quick_sort.c
+SRCS_MAND	+=	src/mandatory/04_3_selection_sort.c
 else ifeq ($(MAKECMDGOALS),radix)
-SRCS_MAND	+=	src/mandatory/04_1_radix_sort.c
+SRCS_MAND	+=	src/mandatory/04_4_radix_sort.c
+else ifeq ($(MAKECMDGOALS),quick)
+SRCS_MAND	+=	src/mandatory/04_5_quick_sort.c
+else ifeq ($(MAKECMDGOALS),chunk)
+SRCS_MAND	+=	src/mandatory/04_6_chunksort.c \
+				src/mandatory/04_6_chunksort_utils.c
 else ifeq ($(MAKECMDGOALS),LIS)
 SRCS_MAND	+=	src/mandatory/04_2_LISsort.c
-else ifeq ($(MAKECMDGOALS),chunk)
-SRCS_MAND	+=	src/mandatory/04_1_chunksort.c \
-				src/mandatory/04_1_chunksort_utils.c
 else
 SRCS_MAND	+=	src/mandatory/04_1_bubble_sort.c
 endif
@@ -113,6 +113,17 @@ OBJ_T       := $(TEST:.c=.o)
 #-----------------------------------------------------------------------------
 
 all: $(NAME)
+
+bubble: fclean all
+
+insertion: fclean all
+
+selection: fclean all
+
+quick: fclean all
+
+radix: fclean all
+
 
 $(NAME): $(LIBFT_A) $(OBJS_MAND)
 	@echo "Compiled with $(GREEN)$(BOLD)$(CFLAGS)$(RESET)"
