@@ -16,10 +16,10 @@
 static void	insert_element_to_stack_b(t_Stacks *stacks, t_op *ops,
 		t_op *op_count)
 {
-	int	rb_count;
-	int	i;
-	int	a_value;
-	int	b_value;
+	unsigned int	rb_count;
+	unsigned int	i;
+	unsigned int	a_value;
+	unsigned int	b_value;
 
 	a_value = deque_peek_at_Nth(&stacks->a_stack, 0);
 	rb_count = 0;
@@ -55,9 +55,16 @@ void	sort_stacks(t_Stacks *stacks, t_op *ops)
 	op_count = 0;
 	if (stacks->a_stack.size <= 1)
 		return (ops[0] = LAST, (void)0);
-	do_op(stacks, PB, ops, &op_count);
-	while (!deque_is_empty(&stacks->a_stack))
-		insert_element_to_stack_b(stacks, ops, &op_count);
-	return_all_to_stack_a(stacks, ops, &op_count);
+	else if (stacks->a_stack.size <= BASE_CASE)
+	{
+		sort_small_stack_constrained(stacks, ops, &op_count,
+			stacks->a_stack.size);
+	}
+	else
+	{
+		while (!deque_is_empty(&stacks->a_stack))
+			insert_element_to_stack_b(stacks, ops, &op_count);
+		return_all_to_stack_a(stacks, ops, &op_count);
+	}
 	ops[op_count] = LAST;
 }
