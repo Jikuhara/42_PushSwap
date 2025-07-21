@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
-/* けしてね */
-#include <stdio.h>
 
 // 回転操作を統合最適化する関数
 static void	optimize_rotation_operations(t_op *ops)
@@ -175,7 +173,7 @@ void	print_operation(t_op *ops)
 {
 	unsigned int	i;
 	int				tmp;
-	char			*op_strs[] = {"sa", "sb", "ss", "pa", "pb", "ra", "rb",
+	char			*op_strs[] = {"", "sa", "sb", "ss", "pa", "pb", "ra", "rb",
 		"rr", "rra", "rrb", "rrr"};
 
 	// 特定パターンの最適化を実行
@@ -184,12 +182,9 @@ void	print_operation(t_op *ops)
 	optimize_rotation_operations(ops);
 	// 念のため再度実行（複雑なパターンに対応）
 	optimize_rotation_operations(ops);
-
-
 	i = 0;
 	while (ops[i] != LAST)
 	{
-		/* ほんまはft_pritntf */
 		tmp = printf("%s\n", op_strs[ops[i]]);
 		if (tmp == -1)
 			exit_with_error();

@@ -42,8 +42,7 @@ NAME		:=	push_swap
 #─ compile config ────────────────────────────────────────────────────────────
 
 CC			:=	cc
-# CFLAGS		:=	-Wall -Wextra -Werror -Iincludes -Ilibft
-CFLAGS		:=	-Iincludes -Ilibft
+CFLAGS		:=	-Wall -Wextra -Werror -Iincludes -Ilibft
 # CFLAGS		:=	-Wall -Wextra -Werror -Iincludes -Ilibft -fsanitize=address
 T_CFLAGS	:=	-Iincludes -Ilibft
 
@@ -58,7 +57,6 @@ LIBFT_A		:=	$(LIBFT_DIR)/libft.a
 #─ sources & objects ─────────────────────────────────────────────────────────
 
 #mandatory sources
-
 SRCS_MAND	:=	src/mandatory/01_is_valid_args.c \
 				src/mandatory/02_init_info.c \
 				src/mandatory/00_main.c \
@@ -75,21 +73,24 @@ ifeq ($(MAKECMDGOALS),bubble)
 SRCS_MAND	+=	src/mandatory/04_1_bubble_sort.c
 else ifeq ($(MAKECMDGOALS),insertion)
 SRCS_MAND	+=	src/mandatory/04_2_insertion_sort.c
+else ifeq ($(MAKECMDGOALS),insertion_optimized)
+SRCS_MAND	+=	src/mandatory/04_2_insertion_sort_optimized.c
 else ifeq ($(MAKECMDGOALS),selection)
 SRCS_MAND	+=	src/mandatory/04_3_selection_sort.c
 else ifeq ($(MAKECMDGOALS),radix)
 SRCS_MAND	+=	src/mandatory/04_4_radix_sort.c
 else ifeq ($(MAKECMDGOALS),quick)
 SRCS_MAND	+=	src/mandatory/04_5_quick_sort.c
+else ifeq ($(MAKECMDGOALS),quick_3)
+SRCS_MAND	+=	src/mandatory/04_5_quick_sort_3way.c
 else ifeq ($(MAKECMDGOALS),chunk)
-SRCS_MAND	+=	src/mandatory/04_6_chunksort.c \
-				src/mandatory/04_6_chunksort_utils.c
+SRCS_MAND	+=	src/mandatory/04_6_chunk_sort.c \
+				src/mandatory/04_6_chunk_sort_utils.c
 else ifeq ($(MAKECMDGOALS),LIS)
-SRCS_MAND	+=	src/mandatory/04_2_LISsort.c
+SRCS_MAND	+=	src/mandatory/04_9_LISsort.c
 else
 SRCS_MAND	+=	src/mandatory/04_1_bubble_sort.c
 endif
-
 
 #bonus sources
 
@@ -118,12 +119,19 @@ bubble: fclean all
 
 insertion: fclean all
 
-selection: fclean all
+insertion_optimized: fclean all
 
-quick: fclean all
+selection: fclean all
 
 radix: fclean all
 
+quick: fclean all
+
+quick_3: fclean all
+
+chunk: fclean all
+
+LIS: fclean all
 
 $(NAME): $(LIBFT_A) $(OBJS_MAND)
 	@echo "Compiled with $(GREEN)$(BOLD)$(CFLAGS)$(RESET)"
@@ -140,12 +148,10 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@$(CC) $(CFLAGS) -c -o $@ $^
 
 # libft
-
 $(LIBFT_A):
 	@$(MAKE) -C $(LIBFT_DIR)
 
 # clean targets
-
 clean:
 	@$(MAKE) -C $(LIBFT_DIR) clean
 	@rm -rf $(OBJDIR)
@@ -176,6 +182,5 @@ re: fclean all
 # 	@valgrind --leak-check=full ./$(OBJ_T)
 # 	@rm $(OBJ_T)
 # 	fclean
-
 
 .PHONY: all clean fclean re bonus test

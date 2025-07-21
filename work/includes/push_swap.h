@@ -13,11 +13,13 @@
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
+# include <stdint.h>
 # include "deque.h"
 # include "libft.h"
 # define INPUT_MAX_LIMIT 1001
 # define OPS_MAX 1000000
 # define ERR_MSG "Error"
+#define BASE_CASE 3
 
 typedef struct s_Stacks
 {
@@ -60,10 +62,7 @@ void		sort_stacks(t_Stacks *Stacks, t_op *ops);
 void		sort_small_stack_constrained(t_Stacks *stacks, t_op *ops,
 				unsigned int *op_count, int len);
 
-// Test functions (temporary)
-void		three_way_partition(t_Stacks *stacks, t_op *ops,
-				unsigned int *op_count, int len, int pivot1, int pivot2,
-				int *small_count, int *mid_count, int *large_count);
+void		quicksort_array(int nums[], size_t n);
 
 void		print_operation(t_op *ops);
 
