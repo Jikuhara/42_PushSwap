@@ -72,32 +72,6 @@ static void	move_two_chunks_to_b(t_Stacks *s, t_op *ops, unsigned int *cnt, cons
 	}
 }
 
-static size_t	find_min_index(const t_Deque *d)
-{
-	size_t	i;
-	size_t	pos;
-	int		min_val;
-	size_t	min_idx;
-	int		val;
-
-	min_val = INT_MAX;
-	min_idx = 0;
-	pos = d->top;
-	i = 0;
-	while (i < d->size)
-	{
-		val = d->array[pos];
-		if (val < min_val)
-		{
-			min_val = val;
-			min_idx = i;
-		}
-		pos = (pos + 1) % DEQUE_CAPACITY;
-		i++;
-	}
-	return (min_idx);
-}
-
 static void	move_all_chunks_a_to_b(t_Stacks *s, t_op *ops, unsigned int *op_count, const t_chunks *chunks)
 {
 	int center = chunks->count / 2;
@@ -133,6 +107,48 @@ static void	move_all_b_to_a(t_Stacks *s, t_op *ops, unsigned int *op_count)
 		do_op(s, PA, ops, op_count);
 }
 
+static size_t	find_min_index(const t_Deque *d)
+{
+	size_t	i;
+	size_t	pos;
+	int		min_val;
+	size_t	min_idx;
+	int		val;
+
+	min_val = INT_MAX;
+	min_idx = 0;
+	pos = d->top;
+	i = 0;
+	while (i < d->size)
+	{
+		val = d->array[pos];
+		if (val < min_val)
+		{
+			min_val = val;
+			min_idx = i;
+		}
+		pos = (pos + 1) % DEQUE_CAPACITY;
+		i++;
+	}
+	return (min_idx);
+}
+
+static size_t find_max_index(const t_Deque *d)
+{
+	size_t i, pos, max_idx = 0;
+	int max_val = INT_MIN, val;
+	pos = d->top;
+	for (i = 0; i < d->size; i++) {
+		val = d->array[pos];
+		if (val > max_val) {
+			max_val = val;
+			max_idx = i;
+		}
+		pos = (pos + 1) % DEQUE_CAPACITY;
+	}
+	return max_idx;
+}
+
 static void	rotate_b_to_top(t_Stacks *s, t_op *ops, unsigned int *cnt,
 	size_t idx)
 {
@@ -148,18 +164,34 @@ static void	rotate_b_to_top(t_Stacks *s, t_op *ops, unsigned int *cnt,
 	do_op(s, RRB, ops, cnt);
 	}
 }
-static void	sort_chunk_from_b(t_Stacks *s, t_op *ops, unsigned int *cnt,
-	size_t count)
+static void	sort_chunk_from_b(t_Stacks *s, t_op *ops, unsigned int *cnt, size_t count)
 {
-	size_t	idx;
-
-	while (count--)
+	int max_pa_count = 0;
+	while (count > 0)
 	{
-	idx = find_min_index(&s->b_stack);
-	rotate_b_to_top(s, ops, cnt, idx);
-	do_op(s, PA, ops, cnt);
-	do_op(s, RA, ops, cnt);
+		int b_top = deque_peek_at_Nth(&s->b_stack, 0);
+		size_t min_idx = find_min_index(&s->b_stack);
+		size_t max_idx = find_max_index(&s->b_stack);
+		int min_val = s->b_stack.array[(s->b_stack.top + min_idx) % DEQUE_CAPACITY];
+		int max_val = s->b_stack.array[(s->b_stack.top + max_idx) % DEQUE_CAPACITY];
+
+		if (b_top == min_val) {
+			do_op(s, PA, ops, cnt);
+			do_op(s, RA, ops, cnt);
+			count--;
+		} else if (b_top == max_val) {
+			do_op(s, PA, ops, cnt);
+			max_pa_count++;
+			count--;
+		} else {
+			if (min_idx <= max_idx)
+				rotate_b_to_top(s, ops, cnt, min_idx);
+			else
+				rotate_b_to_top(s, ops, cnt, max_idx);
+		}
 	}
+	for (int i = 0; i < max_pa_count; ++i)
+		do_op(s, RA, ops, cnt);
 }
 
 static void	sort_all_chunks(t_Stacks *s, t_op *ops, unsigned int *op_count, const t_chunks *chunks, size_t n)
