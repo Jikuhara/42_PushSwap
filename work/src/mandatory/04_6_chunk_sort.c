@@ -164,7 +164,40 @@ static void	rotate_b_to_top(t_Stacks *s, t_op *ops, unsigned int *cnt,
 	do_op(s, RRB, ops, cnt);
 	}
 }
-static void	sort_chunk_from_b(t_Stacks *s, t_op *ops, unsigned int *cnt, size_t count)
+static size_t select_best_rotation(const t_Deque *b, size_t *out_idx, int *is_min)
+{
+	size_t min_idx = find_min_index(b);
+	size_t max_idx = find_max_index(b);
+	size_t size = b->size;
+
+	size_t dist_top_min = min_idx;
+	size_t dist_top_max = max_idx;
+	size_t dist_bottom_min = size - min_idx;
+	size_t dist_bottom_max = size - max_idx;
+
+	size_t min_dist = dist_top_min;
+	*out_idx = min_idx;
+	*is_min = 1;
+
+	if (dist_top_max < min_dist) {
+		min_dist = dist_top_max;
+		*out_idx = max_idx;
+		*is_min = 0;
+	}
+	if (dist_bottom_min < min_dist) {
+		min_dist = dist_bottom_min;
+		*out_idx = min_idx;
+		*is_min = 1;
+	}
+	if (dist_bottom_max < min_dist) {
+		min_dist = dist_bottom_max;
+		*out_idx = max_idx;
+		*is_min = 0;
+	}
+	return min_dist;
+}
+
+static void sort_chunk_from_b(t_Stacks *s, t_op *ops, unsigned int *cnt, size_t count)
 {
 	int max_pa_count = 0;
 	while (count > 0)
@@ -184,10 +217,10 @@ static void	sort_chunk_from_b(t_Stacks *s, t_op *ops, unsigned int *cnt, size_t 
 			max_pa_count++;
 			count--;
 		} else {
-			if (min_idx <= max_idx)
-				rotate_b_to_top(s, ops, cnt, min_idx);
-			else
-				rotate_b_to_top(s, ops, cnt, max_idx);
+			size_t best_idx;
+			int is_min;
+			select_best_rotation(&s->b_stack, &best_idx, &is_min);
+			rotate_b_to_top(s, ops, cnt, best_idx);
 		}
 	}
 	for (int i = 0; i < max_pa_count; ++i)
