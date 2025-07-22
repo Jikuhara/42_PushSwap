@@ -16,7 +16,8 @@
 # include "libft.h"
 
 # define DEQUE_CAPACITY 1001
-typedef struct s_Deque
+
+typedef struct		s_Deque
 {
 	int				top;
 	int				bottom;

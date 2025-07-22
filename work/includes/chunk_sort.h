@@ -14,41 +14,26 @@
 # define CHUNK_SORT_H
 
 # include "push_swap.h"
+# define CHUNK_SIZE 42
+# define MAXCHUNK 100
 
-typedef enum e_position
-{
-	TOP_A,
-	BOTTOM_A,
-	TOP_B,
-	BOTTOM_B
-}				t_position;
+typedef struct s_chunk {
+	int		min_val;
+	int		max_val;
+	int		index;
+	size_t	size;
+} t_chunk;
 
-typedef struct s_chunk
-{
-	t_position	position;
-	int			size;
-	int			min_val;
-	int			max_val;
-}				t_chunk;
+typedef struct s_chunks {
+	t_chunk	chunks[MAXCHUNK];
+	int		count;
+} t_chunks;
 
-typedef struct s_chunk_set
-{
-	t_chunk		min;
-	t_chunk		mid;
-	t_chunk		max;
-}				t_chunk_set;
+void	init_chunks(t_chunks *chunks, size_t n);
+int		chunk_contains(const t_chunk *chunk, int val);
 
-// Function declarations
-// static int	is_chunk_sorted(t_Stacks *stacks, t_chunk chunk);
-void			calculate_pivots(t_Stacks *stacks, t_chunk chunk, int *pivot1,
-					int *pivot2);
-void			move_chunk_to_position(t_Stacks *stacks, t_op *ops,
-					unsigned int *op_count, t_chunk *chunk, t_position target);
-void			split_chunk(t_Stacks *stacks, t_op *ops,
-					unsigned int *op_count, t_chunk *chunk, t_chunk_set *dest);
-void			chunk_sort_recursive(t_Stacks *stacks, t_op *ops,
-					unsigned int *op_count, t_chunk input_chunk);
-bool			is_chunk_sorted(t_Stacks *stacks, t_chunk chunk);
-void			init_size(t_chunk *min, t_chunk *mid, t_chunk *max);
+void	split_each_chunks(t_Stacks *s, t_op *ops, unsigned int *op_count, const t_chunks *chunks);
+void	sort_all_chunks(t_Stacks *s, t_op *ops, unsigned int *op_count, const t_chunks *chunks);
 
 #endif
+

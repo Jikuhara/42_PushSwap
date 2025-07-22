@@ -42,7 +42,8 @@ NAME		:=	push_swap
 #─ compile config ────────────────────────────────────────────────────────────
 
 CC			:=	cc
-CFLAGS		:=	-Wall -Wextra -Werror -Iincludes -Ilibft
+# CFLAGS		:=	-Wall -Wextra -Werror -Iincludes -Ilibft
+CFLAGS		:=	-Iincludes -Ilibft -lm
 # CFLAGS		:=	-Wall -Wextra -Werror -Iincludes -Ilibft -fsanitize=address
 T_CFLAGS	:=	-Iincludes -Ilibft
 
@@ -84,7 +85,10 @@ SRCS_MAND	+=	src/mandatory/04_5_quick_sort.c
 else ifeq ($(MAKECMDGOALS),quick_3)
 SRCS_MAND	+=	src/mandatory/04_5_quick_sort_3way.c
 else ifeq ($(MAKECMDGOALS),chunk)
-SRCS_MAND	+=	src/mandatory/04_6_chunk_sort.c
+SRCS_MAND	+=	src/mandatory/04_6_chunk_sort_0_main.c \
+				src/mandatory/04_6_chunk_sort_1_splitter.c \
+				src/mandatory/04_6_chunk_sort_2_individual.c \
+				src/mandatory/04_6_chunk_sort_99_utils.c
 else ifeq ($(MAKECMDGOALS),LIS)
 SRCS_MAND	+=	src/mandatory/04_9_LISsort.c
 else
@@ -134,7 +138,7 @@ LIS: fclean all
 
 $(NAME): $(LIBFT_A) $(OBJS_MAND)
 	@echo "Compiled with $(GREEN)$(BOLD)$(CFLAGS)$(RESET)"
-	@$(CC) $(CFLAGS)  $(OBJS_MAND) -o $@ $(LIBFT_A)
+	@$(CC) $(CFLAGS) $(OBJS_MAND) -o $@ $(LIBFT_A) -lm
 	@echo "$(YELLOW)$(BOLD)========================================="
 	@echo "    You can use My $(NAME)!!"
 	@echo "=========================================$(RESET)"
@@ -144,7 +148,7 @@ $(NAME): $(LIBFT_A) $(OBJS_MAND)
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(dir $@)
 	@echo "Compiled ✅ $(WHITE) $(BOLD) $^ $(RESET)"
-	@$(CC) $(CFLAGS) -c -o $@ $^
+	@$(CC) $(CFLAGS) -c -o $@ $^ -lm
 
 # libft
 $(LIBFT_A):
