@@ -29,7 +29,7 @@ static bool	will_overflow(unsigned int acc, unsigned int digit, bool negative)
 
 static bool	ft_safe_atoi(const char *str)
 {
-	int				negative;
+	bool                    negative = false;
 	unsigned int	acc;
 	unsigned int	digit;
 
@@ -38,7 +38,7 @@ static bool	ft_safe_atoi(const char *str)
 	if (*str == '+' || *str == '-')
 	{
 		if (*str == '-')
-			negative = 1;
+			negative = true;
 		str++;
 	}
 	acc = 0;
