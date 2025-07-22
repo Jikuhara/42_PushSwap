@@ -84,8 +84,7 @@ SRCS_MAND	+=	src/mandatory/04_5_quick_sort.c
 else ifeq ($(MAKECMDGOALS),quick_3)
 SRCS_MAND	+=	src/mandatory/04_5_quick_sort_3way.c
 else ifeq ($(MAKECMDGOALS),chunk)
-SRCS_MAND	+=	src/mandatory/04_6_chunk_sort.c \
-				src/mandatory/04_6_chunk_sort_utils.c
+SRCS_MAND	+=	src/mandatory/04_6_chunk_sort.c
 else ifeq ($(MAKECMDGOALS),LIS)
 SRCS_MAND	+=	src/mandatory/04_9_LISsort.c
 else
