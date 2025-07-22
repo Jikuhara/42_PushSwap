@@ -14,29 +14,6 @@
 #include "chunk_sort.h"
 #include "push_swap.h"
 
-void	sort_stacks(t_Stacks *stacks, t_op *ops)
-{
-	unsigned int	op_count;
-	t_chunk			initial_chunk;
-
-	op_count = 0;
-	if (stacks->a_stack.size <= 1)
-		return (ops[0] = LAST, (void)0);
-	if (stacks->a_stack.size <= BASE_CASE)
-	{
-		sort_small_stack_constrained(stacks, ops, &op_count,
-			stacks->a_stack.size);
-		ops[op_count] = LAST;
-		return ;
-	}
-	initial_chunk.position = TOP_A;
-	initial_chunk.size = stacks->a_stack.size;
-	initial_chunk.min_val = 0;
-	initial_chunk.max_val = stacks->a_stack.size - 1;
-	chunk_sort_recursive(stacks, ops, &op_count, initial_chunk);
-	ops[op_count] = LAST;
-}
-
 // メイン再帰関数：チャンクソートのコア
 void	chunk_sort_recursive(t_Stacks *stacks, t_op *ops, t_op *op_count,
 		t_chunk input_chunk)
@@ -176,6 +153,29 @@ void	split_chunk(t_Stacks *stacks, t_op *ops, t_op *op_count,
 	dest->mid.min_val = pivot_small;
 	dest->min.max_val = pivot_small - 1;
 	dest->min.min_val = to_split->min_val;
+}
+
+void	sort_stacks(t_Stacks *stacks, t_op *ops)
+{
+	unsigned int	op_count;
+	t_chunk			initial_chunk;
+
+	op_count = 0;
+	if (stacks->a_stack.size <= 1)
+		return (ops[0] = LAST, (void)0);
+	if (stacks->a_stack.size <= BASE_CASE)
+	{
+		sort_small_stack_constrained(stacks, ops, &op_count,
+			stacks->a_stack.size);
+		ops[op_count] = LAST;
+		return ;
+	}
+	initial_chunk.position = TOP_A;
+	initial_chunk.size = stacks->a_stack.size;
+	initial_chunk.min_val = 0;
+	initial_chunk.max_val = stacks->a_stack.size - 1;
+	chunk_sort_recursive(stacks, ops, &op_count, initial_chunk);
+	ops[op_count] = LAST;
 }
 
 // void	split_chunk(t_Stacks *stacks, t_op *ops,

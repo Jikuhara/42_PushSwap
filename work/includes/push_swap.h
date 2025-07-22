@@ -16,6 +16,8 @@
 # include <stdint.h>
 # include "deque.h"
 # include "libft.h"
+
+#define	MAX_CHUNK 21
 # define INPUT_MAX_LIMIT 1001
 # define OPS_MAX 1000000
 # define ERR_MSG "Error"

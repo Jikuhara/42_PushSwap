@@ -2,3 +2,6 @@ obj/
 *.o
 push_swap
 libft.a
+test.txt
+.cache
+compile*
