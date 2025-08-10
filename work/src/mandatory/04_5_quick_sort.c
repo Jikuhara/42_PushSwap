@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   04_1_Quick_sort.c                                  :+:      :+:    :+:   */
+/*   04_5_quick_sort.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kei2003730 <kei2003730@student.42.fr>      +#+  +:+       +#+        */
+/*   By: kjikuhar <kjikuhar@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 19:14:34 by kei2003730        #+#    #+#             */
-/*   Updated: 2025/07/14 08:25:48 by kei2003730       ###   ########.fr       */
+/*   Updated: 2025/08/08 00:26:58 by kjikuhar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,12 +112,12 @@ void	sort_stacks(t_Stacks *stacks, t_op *ops)
 	unsigned int	op_count;
 
 	op_count = 0;
-	// if (stacks->a_stack.size <= 1)
-	// 	return (ops[0] = LAST, (void)0);
+	if (stacks->a_stack.size <= 1)
+		return (ops[0] = LAST, (void)0);
 	if (stacks->a_stack.size <= BASE_CASE)
 		sort_small_stack_constrained(stacks, ops, &op_count,
 			stacks->a_stack.size);
-	// else
-		// quick_sort_recursive(stacks, ops, &op_count, stacks->a_stack.size);
+	else
+		quick_sort_recursive(stacks, ops, &op_count, stacks->a_stack.size);
 	ops[op_count] = LAST;
 }

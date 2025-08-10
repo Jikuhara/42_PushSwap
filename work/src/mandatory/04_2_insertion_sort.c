@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   04_1_insertion_sort.c                              :+:      :+:    :+:   */
+/*   04_2_insertion_sort.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kei2003730 <kei2003730@student.42.fr>      +#+  +:+       +#+        */
+/*   By: kjikuhar <kjikuhar@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:38:38 by kjikuhar          #+#    #+#             */
-/*   Updated: 2025/07/14 08:25:26 by kei2003730       ###   ########.fr       */
+/*   Updated: 2025/08/08 00:49:31 by kjikuhar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#define BASE_CASE 2
 
 /* insertion_sort */
 static void	insert_element_to_stack_b(t_Stacks *stacks, t_op *ops,
